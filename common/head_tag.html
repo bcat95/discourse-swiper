@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+<script src="https://unpkg.com/swiper/js/swiper.min.js"></script>
+
+<script type="text/discourse-plugin" version="0.8">
+api.registerConnectorClass('above-main-container', 'discourse-swiper', {
+    // above-main-container is the plugin outlet,
+    // featured-topics is your custom component name
+    setupComponent(args, component) {
+        api.onPageChange((url, title) => {
+            
+            if ((url == "/") || (url == "/latest") || (url == "/?preview_theme_id=3571")) {
+                $('html').addClass('custom-discourse-swiper');
+                
+                // add a class to the HTML tag for easy CSS targetting
+                component.set('displaydiscourseSwiper', true);
+                
+                var mySwiper = new Swiper ('.swiper-container', {
+                // Optional parameters
+                direction: 'vertical',
+                loop: true,
+            
+                // If we need pagination
+                pagination: {
+                  el: '.swiper-pagination',
+                },
+            
+                // Navigation arrows
+                navigation: {
+                  nextEl: '.swiper-button-next',
+                  prevEl: '.swiper-button-prev',
+                },
+            
+                // And if we need scrollbar
+                scrollbar: {
+                  el: '.swiper-scrollbar',
+                },
+              })
+            } else {
+                // If the page doesn't match the urls above, do this:
+                $('html').removeClass('custom-discourse-swiper');
+                // Remove our custom class
+                component.set('displaydiscourseSwiper', false);
+                // Don't display our customization
+            }
+        });
+    }
+})
+</script>
+
+<script type="text/x-handlebars" data-template-name="/connectors/above-main-container/discourse-swiper">
+<div class="swiper-container">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-1.jpg"/></div>
+        <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-2.jpg"/></div>
+        <div class="swiper-slide"><img src="https://swiperjs.com/demos/images/nature-3.jpg"/></div>
+    </div>
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-scrollbar"></div>
+</div>
+</script>
